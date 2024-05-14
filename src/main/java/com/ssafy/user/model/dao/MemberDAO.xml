@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.user.model.dao.MemberDAO">
+	<insert id="insert" parameterType="MemberDTO">
+		insert into user(user_id, user_pw, user_name, user_tel, zip_code, user_address, user_address_detail, user_profile)
+		values(#{userId}, #{userPw}, #{userName}, #{userTel}, #{zipCode}, #{userAddress}, #{userAddressDetail}, #{userProfile})
+	</insert>
+	
+	<select id="selectOne" resultMap="member">
+		select *
+		from user
+		where user_id = #{userId} and user_pw = #{userPw}
+	</select>
+	
+	<select id="selectUserId" resultType="MemberDTO">
+		select user_id, user_name, user_tel, zip_code, user_address, user_address_detail, user_profile
+		from user
+		where user_id=#{userId}
+	</select>
+	
+	<resultMap type="MemberDTO" id="member">
+		<result column="user_id" property="userId"/>
+		<result column="user_pw" property="userPw"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_tel" property="userTel"/>
+		<result column="zip_code" property="zipCode"/>
+		<result column="user_address" property="userAddress"/>
+		<result column="user_address_detail" property="userAddressDetail"/>
+		<result column="user_profile" property="userProfile"/>
+	</resultMap>
+</mapper>
