@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.board.model.dao.BoardDAO">
+	<insert id="insert" parameterType="BoardDTO" useGeneratedKeys="true" keyProperty="boardIdx">
+		insert into board(board_title, board_content, board_reg_date, user_id)
+		values(#{boardTitle}, #{boardContent}, now(), #{userId})
+	</insert>
+	
+	<select id="selectTotalCount" resultType="int">
+		select count(board_idx) from board
+	</select>
+	
+	<select id="selectList" resultMap="board">
+		select board_idx, board_title, board_content, board_reg_date, board_upd_date, board_del_date, user_id, board_cnt, board_like, board_comment_cnt
+		from board order by board_idx desc
+		limit #{sr}, #{cc}
+	</select>
+	
+	<update id="update" parameterType="BoardDTO">
+		update board set board_title=#{boardTitle}, board_content=#{boardContent}, board_upd_date=now()
+		where board_idx=#{boardIdx}
+	</update>
+	
+	<delete id="delete" parameterType="BoardDTO">
+		delete from board
+		where board_idx=#{boardIdx}
+	</delete>
+	
+	<select id="selectOne" resultMap="board">
+		select *
+		from board
+		where board_idx=#{boardIdx} 
+	</select>
+	
+	<resultMap type="BoardDTO" id="board">
+		<result column="board_idx" property="boardIdx"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_content" property="boardContent"/>
+		<result column="board_reg_date" property="boardRegDate"/>
+		<result column="board_upd_date" property="boardUpdDate"/>
+		<result column="board_del_date" property="boardDelDate"/>
+		<result column="user_id" property="userId"/>
+		<result column="board_cnt" property="boardCnt"/>
+		<result column="board_like" property="boardLike"/>
+		<result column="board_comment_cnt" property="boardCommentCnt"/>
+	</resultMap>
+</mapper>
