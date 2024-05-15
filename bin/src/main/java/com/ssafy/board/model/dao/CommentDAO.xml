@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.board.model.dao.CommentDAO">
+	<insert id="insert" parameterType="CommentDTO">
+		insert into comment(comment_id, board_id, comment_writer, comment_content, comment_reg_date, board_idx)
+		values(#{commentId}, #{boardId}, #{commentWriter}, #{commentContent}, now(), #{boardIdx})
+	</insert>
+	
+	<update id="update" parameterType="CommentDTO">
+		update comment set comment_writer=#{commentWriter} comment_content=#{commentContent}
+		where comment_idx=#{commentIdx}
+	</update>
+	
+	<delete id="delete" parameterType="CommentDTO">
+		delete from comment
+		where comment_idx=#{commentIdx}
+	</delete>
+	
+	<select id="selectOne" resultMap="comment">
+		select *
+		from comment
+		where comment_idx=#{commentIdx} 
+	</select>
+	
+	<select id="selectList" resultType="CommentDTO">
+		select *
+		from comment
+		where board_idx=#{boardIdx}
+	</select>
+	
+	<resultMap type="CommentDTO" id="comment">
+		<result column="comment_idx" property="commentIdx"/>
+		<result column="comment_id" property="commentId"/>
+		<result column="board_id" property="boardId"/>
+		<result column="comment_writer" property="commentWriter"/>
+		<result column="comment_content" property="commentContent"/>
+		<result column="comment_reg_date" property="commentRegDate"/>
+		<result column="board_idx" property="boardIdx"/>
+	</resultMap>
+</mapper>
