@@ -29,6 +29,10 @@ public class MemberService {
 		return mdao.userInfo(userId);
 	}
 	
+	public MemberDTO getUserInfo(String userId) throws Exception{
+		return mdao.getUserInfo(userId);
+	}
+	
 	public Object getRefreshToken(String userId) throws Exception {
 		return mdao.getRefreshToken(userId);
 	}
