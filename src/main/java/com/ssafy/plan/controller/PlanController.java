@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ssafy.plan.model.dto.PlanDTO;
+import com.ssafy.plan.model.dto.ScheduleDTO;
 import com.ssafy.plan.model.service.PlanService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,7 +75,7 @@ public class PlanController {
 		return "redirect:/plan/list";
 	}
 	
-	@Operation(summary="플랜 조회 페이지 이동", description="플랜 조회 페이지 이동")
+	@Operation(summary="플랜 조회", description="플랜 조회")
 	@GetMapping("/read/{planIdx}")
     public ResponseEntity<PlanDTO> read(@PathVariable("planIdx") @Parameter(name = "planIdx", description = "얻어올 플랜의 번호", required = true) int planIdx) {
 		return new ResponseEntity<PlanDTO>(pservice.read(planIdx), HttpStatus.OK);
@@ -85,6 +86,45 @@ public class PlanController {
 	public ResponseEntity<?> delete(@PathVariable("planIdx") @Parameter(name = "planIdx", description = "삭제할 플랜의 번호", required = true) int planIdx) {
 		try {
 			pservice.delete(planIdx);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@Operation(summary="스케줄 작성", description="스케줄 작성 요청 시 DB에 저장")
+	@PostMapping("/write_schedule")
+	public ResponseEntity<?> scheduleWrite(@RequestBody @Parameter(description = "작성 스케줄 정보", required = true) ScheduleDTO schedule){
+		try {
+			pservice.scheduleWrite(schedule);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@Operation(summary="스케줄 수정", description="스케줄 수정 요청 시 DB에 저장된 데이터 수정")
+	@PostMapping("/update_schedule")
+	public ResponseEntity<?> scheduleUpdate(@RequestBody @Parameter(description = "수정할 스케줄 정보", required = true) ScheduleDTO schedule, Model model) {
+		try {
+			pservice.scheduleUpdate(schedule);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@Operation(summary="스케줄 조회", description="스케줄 조회")
+	@GetMapping("/read_schedule/{scheduleIdx}")
+    public ResponseEntity<ScheduleDTO> scheduleRead(@PathVariable("scheduleIdx") @Parameter(name = "scheduleIdx", description = "얻어올 스케줄의 번호", required = true) int scheduleIdx) {
+		return new ResponseEntity<ScheduleDTO>(pservice.scheduleRead(scheduleIdx), HttpStatus.OK);
+    }
+	
+	@Operation(summary="스케줄 삭제", description="스케줄 삭제 시 DB에 저장된 데이터 삭제")
+	@DeleteMapping("/delete_schedule/{scheduleIdx}")
+	public ResponseEntity<?> scheduleDelete(@PathVariable("scheduleIdx") @Parameter(name = "scheduleIdx", description = "삭제할 스케줄의 번호", required = true) int scheduleIdx) {
+		try {
+			pservice.scheduleDelete(scheduleIdx);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			return exceptionHandling(e);
