@@ -1,25 +1,24 @@
 package com.ssafy.plan.model.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.plan.model.dao.PlanDAO;
+import com.ssafy.plan.model.dao.ScheduleDAO;
 import com.ssafy.plan.model.dto.PlanDTO;
+import com.ssafy.plan.model.dto.ScheduleDTO;
 
 
 @Service
 public class PlanService {
 	@Autowired
 	private PlanDAO pdao;
+	@Autowired
+	private ScheduleDAO sdao;
 
 	public void write(PlanDTO plan) throws Exception {
 		pdao.insert(plan);
@@ -41,6 +40,7 @@ public class PlanService {
 
 	public PlanDTO read(int planIdx) {
 		PlanDTO plan = pdao.selectOne(planIdx);
+		plan.setSchedules(sdao.selectList());
 		return plan;
 	}
 
@@ -71,5 +71,39 @@ public class PlanService {
 		map.put("planList", planList);
 
 		return map;
+	}
+	
+	public void scheduleWrite(ScheduleDTO schedule) throws Exception {
+		int planIdx = schedule.getPlanIdx();
+        int lastOrder = sdao.getLastScheduleOrder(planIdx);
+
+        if (lastOrder == 0) {
+            // 해당 plan_idx에 대한 Schedule 테이블의 레코드가 없는 경우
+            schedule.setScheduleOrder(1);
+        } else {
+            // 해당 plan_idx에 대한 Schedule 테이블의 마지막 레코드의 schedule_order 값을 가져온 후 1을 더함
+            schedule.setScheduleOrder(lastOrder + 1);
+        }
+		
+		sdao.insert(schedule);
+	}
+
+	public boolean scheduleUpdate(ScheduleDTO schedule) {
+		if (sdao.update(schedule) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean scheduleDelete(int scheduleIdx) {
+		if (sdao.delete(scheduleIdx) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public ScheduleDTO scheduleRead(int scheduleIdx) {
+		ScheduleDTO schedule = sdao.selectOne(scheduleIdx);
+		return schedule;
 	}
 }
