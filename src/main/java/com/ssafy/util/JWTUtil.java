@@ -97,6 +97,7 @@ public class JWTUtil {
 		}
 	}
 	
+	//전달 받은 Token 값에 userId 뽑기
 	public String getUserId(String authorization) {
 		Jws<Claims> claims = null;
 		try {
