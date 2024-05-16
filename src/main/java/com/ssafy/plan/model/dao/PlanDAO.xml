@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.plan.model.dao.PlanDAO">
+	<insert id="insert" parameterType="PlanDTO" useGeneratedKeys="true" keyProperty="planIdx">
+		insert into plan(plan_idx, plan_title, plan_date)
+		values(#{planIdx}, #{planTitle}, #{planDate})
+	</insert>
+	
+	<select id="selectTotalCount" resultType="int">
+		select count(plan_idx) from plan
+	</select>
+	
+	<select id="selectList" resultMap="plan">
+		select plan_idx, plan_title, plan_date
+		from plan order by plan_idx desc
+		limit #{sr}, #{cc}
+	</select>
+	
+	<update id="update" parameterType="PlanDTO">
+		update plan set plan_title=#{planTitle}, plan_date=#{planDate}
+		where plan_idx=#{planIdx}
+	</update>
+	
+	<delete id="delete" parameterType="PlanDTO">
+		delete from plan
+		where plan_idx=#{planIdx}
+	</delete>
+	
+	<select id="selectOne" resultMap="plan">
+		select *
+		from plan
+		where plan_idx=#{planIdx} 
+	</select>
+	
+	<resultMap type="PlanDTO" id="plan">
+		<result column="plan_idx" property="planIdx"/>
+		<result column="plan_title" property="planTitle"/>
+		<result column="plan_date" property="planDate"/>
+	</resultMap>
+</mapper>
