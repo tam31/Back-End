@@ -1,6 +1,7 @@
 package com.ssafy.user.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,13 @@ public class MemberService {
         return result > 0;
     }
 	
-	public boolean checkUserId(String userId) {
-        MemberDTO member = mdao.selectUserId(userId);
-        return member != null;
-    }
+	public MemberDTO detailId(String userId) {
+		return mdao.selectUserId(userId);
+	}
+	
+	public List<MemberDTO> list() {
+		List<MemberDTO> memberList = mdao.selectList(); 
+		return memberList;
+	}
 	
 }
