@@ -1,6 +1,8 @@
 package com.ssafy.user.controller;
 
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +148,6 @@ public class MemberController {
 	@Operation(summary="회원가입 요청", description="회원가입 요청 시 DB에 저장")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
-		System.out.println("11111111111"+member);
 		try {
 			mservice.register(member);
 			return ResponseEntity.ok().build();
@@ -179,7 +180,7 @@ public class MemberController {
 		
 	}
 	
-	@Operation(summary="1사람 회원정보 찾기", description = "회원 정보 가져오기")
+	@Operation(summary="한 사람 회원정보 찾기", description = "회원 정보 가져오기")
 	@GetMapping("/detail/{userId}")
 	public ResponseEntity<?> detail(@PathVariable("userId") String userId){
 		Map<String, Object> resultMap = new HashMap<>();
@@ -198,6 +199,24 @@ public class MemberController {
 			return exceptionHandling(e);
 		}
 	}
+	
+	@Operation(summary="회원 목록", description="회원 전체 목록 조회")
+	@GetMapping("/list")
+	public List<MemberDTO> getMemberList() {
+		return mservice.list();
+	}
+	
+	
+	@Operation(summary="회원정보 수정", description="회원정보 수정시 DB에 저장")
+    @PostMapping("/update/{userId}")
+    public ResponseEntity<?> updateUserInfo(@RequestBody @Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
+		try {
+			mservice.updateUser(member);
+			return ResponseEntity.ok().build();
+		}catch(Exception e){
+			return exceptionHandling(e);
+		}
+    }
 	
 	private ResponseEntity<String> exceptionHandling(Exception e){
 		e.printStackTrace();

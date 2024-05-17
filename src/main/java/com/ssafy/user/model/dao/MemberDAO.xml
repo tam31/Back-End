@@ -12,6 +12,11 @@
 		where user_id = #{userId} and user_pw = #{userPw}
 	</select>
 	
+	<select id="selectList" resultMap="member">
+		select *
+		from user order by user_id desc
+	</select>
+	
 	<select id="selectUserId" resultMap="member">
 		select user_id, user_name, user_tel, zip_code, user_address, user_address_detail, user_profile
 		from user
@@ -46,6 +51,16 @@
 	<update id="deleteRefreshToken" parameterType="map">
 		update user
 		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userId}
+	</update>
+	
+	<update id="updateInfo" parameterType="MemberDTO">
+		update user
+		set user_name = #{userName},
+			user_tel = #{userTel},
+			zip_code = #{zipCode},
+			user_address = #{userAddress},
+			user_address_detail = #{userAddressDetail}
 		where user_id = #{userId}
 	</update>
 	
