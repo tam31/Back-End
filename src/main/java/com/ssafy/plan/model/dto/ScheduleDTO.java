@@ -7,7 +7,6 @@ public class ScheduleDTO {
 	private String scheduleLocation;
 	private double scheduleLat;
 	private double scheduleLon;
-	private Date scheduleDate;
 	private String scheduleMemo;
 	private int planIdx;
 	private int scheduleOrder;
@@ -15,13 +14,12 @@ public class ScheduleDTO {
 	public ScheduleDTO() {}
 
 	public ScheduleDTO(int scheduleIdx, String scheduleLocation, double scheduleLat, double scheduleLon,
-			Date scheduleDate, String scheduleMemo, int planIdx, int scheduleOrder) {
+			String scheduleMemo, int planIdx, int scheduleOrder) {
 		super();
 		this.scheduleIdx = scheduleIdx;
 		this.scheduleLocation = scheduleLocation;
 		this.scheduleLat = scheduleLat;
 		this.scheduleLon = scheduleLon;
-		this.scheduleDate = scheduleDate;
 		this.scheduleMemo = scheduleMemo;
 		this.planIdx = planIdx;
 		this.scheduleOrder = scheduleOrder;
@@ -59,14 +57,6 @@ public class ScheduleDTO {
 		this.scheduleLon = scheduleLon;
 	}
 
-	public Date getScheduleDate() {
-		return scheduleDate;
-	}
-
-	public void setScheduleDate(Date scheduleDate) {
-		this.scheduleDate = scheduleDate;
-	}
-
 	public String getScheduleMemo() {
 		return scheduleMemo;
 	}
@@ -94,7 +84,7 @@ public class ScheduleDTO {
 	@Override
 	public String toString() {
 		return "ScheduleDTO [scheduleIdx=" + scheduleIdx + ", scheduleLocation=" + scheduleLocation + ", scheduleLat="
-				+ scheduleLat + ", scheduleLon=" + scheduleLon + ", scheduleDate=" + scheduleDate + ", scheduleMemo="
+				+ scheduleLat + ", scheduleLon=" + scheduleLon + ", scheduleMemo="
 				+ scheduleMemo + ", planIdx=" + planIdx + ", scheduleOrder=" + scheduleOrder + "]";
 	}
 }

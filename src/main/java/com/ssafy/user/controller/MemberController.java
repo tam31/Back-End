@@ -145,7 +145,7 @@ public class MemberController {
     // 회원가입 요청 처리
 	@Operation(summary="회원가입 요청", description="회원가입 요청 시 DB에 저장")
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
+    public ResponseEntity<?> register(@Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
 		try {
 			mservice.register(member);
 			return ResponseEntity.ok().build();
@@ -153,6 +153,30 @@ public class MemberController {
 			return exceptionHandling(e);
 		}
     }
+	
+	//마이페이지
+	@Operation(summary="마이페이지", description = "회원 정보 가져오기")
+	@GetMapping("/mypage")
+	public ResponseEntity<?> update(HttpServletRequest request){
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			String token = request.getHeader("Authorization");
+			String userId = jwtUtil.getUserId(token);
+			MemberDTO member = mservice.getUserInfo(userId);
+			if(member != null) {
+				resultMap.put("userInfo", member);
+				status = HttpStatus.OK;
+			}else {
+				resultMap.put("message", "찾을 수 없는 정보 입니다.");
+				status = HttpStatus.UNAUTHORIZED;
+			}
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}catch(Exception e) {
+			return exceptionHandling(e);
+		}
+		
+	}
 	
 	private ResponseEntity<String> exceptionHandling(Exception e){
 		e.printStackTrace();
