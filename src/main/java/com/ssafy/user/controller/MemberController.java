@@ -179,6 +179,26 @@ public class MemberController {
 		
 	}
 	
+	@Operation(summary="1사람 회원정보 찾기", description = "회원 정보 가져오기")
+	@GetMapping("/detail/{userId}")
+	public ResponseEntity<?> detail(@PathVariable("userId") String userId){
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			MemberDTO member = mservice.detailId(userId);
+			if(member != null) {
+				resultMap.put("userInfo", member);
+				status = HttpStatus.OK;
+			}else {
+				resultMap.put("message", "찾을 수 없는 정보 입니다.");
+				status = HttpStatus.UNAUTHORIZED;
+			}
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}catch(Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	private ResponseEntity<String> exceptionHandling(Exception e){
 		e.printStackTrace();
 		return new ResponseEntity<String>("Erro : "+ e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
