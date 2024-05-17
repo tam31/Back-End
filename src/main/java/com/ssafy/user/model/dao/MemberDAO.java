@@ -23,4 +23,6 @@ public interface MemberDAO {
     public void deleteRefreshToken(Map<String, String> map) throws SQLException;
     public MemberDTO userInfo(String userId) throws SQLException;
     public MemberDTO getUserInfo(String userId) throws SQLException;
+    
+    public int updateInfo(MemberDTO member) throws SQLException;
 }

@@ -148,7 +148,6 @@ public class MemberController {
 	@Operation(summary="회원가입 요청", description="회원가입 요청 시 DB에 저장")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
-		System.out.println("11111111111"+member);
 		try {
 			mservice.register(member);
 			return ResponseEntity.ok().build();
@@ -206,6 +205,18 @@ public class MemberController {
 	public List<MemberDTO> getMemberList() {
 		return mservice.list();
 	}
+	
+	
+	@Operation(summary="회원정보 수정", description="회원정보 수정시 DB에 저장")
+    @PostMapping("/update/{userId}")
+    public ResponseEntity<?> updateUserInfo(@RequestBody @Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
+		try {
+			mservice.updateUser(member);
+			return ResponseEntity.ok().build();
+		}catch(Exception e){
+			return exceptionHandling(e);
+		}
+    }
 	
 	private ResponseEntity<String> exceptionHandling(Exception e){
 		e.printStackTrace();
