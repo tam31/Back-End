@@ -12,6 +12,11 @@
 		where user_id = #{userId} and user_pw = #{userPw}
 	</select>
 	
+	<select id="selectList" resultMap="member">
+		select *
+		from user order by user_id desc
+	</select>
+	
 	<select id="selectUserId" resultMap="member">
 		select user_id, user_name, user_tel, zip_code, user_address, user_address_detail, user_profile
 		from user

@@ -1,6 +1,8 @@
 package com.ssafy.user.controller;
 
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,7 +181,7 @@ public class MemberController {
 		
 	}
 	
-	@Operation(summary="1사람 회원정보 찾기", description = "회원 정보 가져오기")
+	@Operation(summary="한 사람 회원정보 찾기", description = "회원 정보 가져오기")
 	@GetMapping("/detail/{userId}")
 	public ResponseEntity<?> detail(@PathVariable("userId") String userId){
 		Map<String, Object> resultMap = new HashMap<>();
@@ -197,6 +199,12 @@ public class MemberController {
 		}catch(Exception e) {
 			return exceptionHandling(e);
 		}
+	}
+	
+	@Operation(summary="회원 목록", description="회원 전체 목록 조회")
+	@GetMapping("/list")
+	public List<MemberDTO> getMemberList() {
+		return mservice.list();
 	}
 	
 	private ResponseEntity<String> exceptionHandling(Exception e){
