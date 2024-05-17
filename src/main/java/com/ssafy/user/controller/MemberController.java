@@ -145,7 +145,8 @@ public class MemberController {
     // 회원가입 요청 처리
 	@Operation(summary="회원가입 요청", description="회원가입 요청 시 DB에 저장")
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
+    public ResponseEntity<?> register(@RequestBody @Parameter(description = "회원가입 정보.", required = true) MemberDTO member) {
+		System.out.println("11111111111"+member);
 		try {
 			mservice.register(member);
 			return ResponseEntity.ok().build();
