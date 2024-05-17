@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.plan.model.dao.ScheduleDAO">
 	<insert id="insert" parameterType="ScheduleDTO" useGeneratedKeys="true" keyProperty="scheduleIdx">
-		insert into schedule (schedule_location, schedule_lat, schedule_lon, schedule_date, schedule_memo, plan_idx, schedule_order)
-		values(#{scheduleLocation}, #{scheduleLat}, #{scheduleLon}, #{scheduleDate}, #{scheduleMemo}, #{planIdx}, #{scheduleOrder})
+		insert into schedule (schedule_location, schedule_lat, schedule_lon, schedule_memo, plan_idx, schedule_order)
+		values(#{scheduleLocation}, #{scheduleLat}, #{scheduleLon}, #{scheduleMemo}, #{planIdx}, #{scheduleOrder})
 	</insert>
 	
 	<select id="getLastScheduleOrder" parameterType="int" resultType="int">
-    	select max(schedule_order) from schedule where plan_idx = #{planIdx}
+    	select ifnull(max(schedule_order),0) from schedule where plan_idx = #{planIdx}
 	</select>
 	
 	<select id="selectList" resultMap="schedule">
-		select schedule_idx, schedule_location, schedule_lat, schedule_lon, schedule_date, schedule_memo, plan_idx, schedule_order
+		select schedule_idx, schedule_location, schedule_lat, schedule_lon, schedule_memo, plan_idx, schedule_order
 		from schedule order by schedule_idx desc
 	</select>
 	
 	<update id="update" parameterType="ScheduleDTO">
-		update schedule set schedule_location=#{scheduleLocation}, schedule_lat=#{scheduleLat}, schedule_lon=#{scheduleLon}, schedule_date=#{scheduleDate}, schedule_memo=#{scheduleMemo}, schedule_order=#{scheduleOrder}
+		update schedule set schedule_location=#{scheduleLocation}, schedule_lat=#{scheduleLat}, schedule_lon=#{scheduleLon}, schedule_memo=#{scheduleMemo}, schedule_order=#{scheduleOrder}
 		where schedule_idx=#{scheduleIdx}
 	</update>
 	
@@ -36,7 +36,6 @@
 		<result column="schedule_location" property="scheduleLocation"/>
 		<result column="schedule_lat" property="scheduleLat"/>
 		<result column="schedule_lon" property="scheduleLon"/>
-		<result column="schedule_date" property="scheduleDate"/>
 		<result column="schedule_memo" property="scheduleMemo"/>
 		<result column="plan_idx" property="planIdx"/>
 		<result column="schedule_order" property="scheduleOrder" />	
