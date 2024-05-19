@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,8 +79,8 @@ public class PlanController {
 	
 	@Operation(summary="플랜 조회", description="플랜 조회")
 	@GetMapping("/read/{planIdx}")
-    public ResponseEntity<PlanDTO> read(@PathVariable("planIdx") @Parameter(name = "planIdx", description = "얻어올 플랜의 번호", required = true) int planIdx) {
-		return new ResponseEntity<PlanDTO>(pservice.read(planIdx), HttpStatus.OK);
+    public ResponseEntity<?> read(@PathVariable("planIdx") @Parameter(name = "planIdx", description = "얻어올 플랜의 번호", required = true) int planIdx) {
+		return new ResponseEntity<>(pservice.read(planIdx), HttpStatus.OK);
     }
 	
 	@Operation(summary="플랜 삭제", description="플랜 삭제 시 DB에 저장된 데이터 삭제")
@@ -107,6 +109,7 @@ public class PlanController {
 	@PostMapping("/update_schedule")
 	public ResponseEntity<?> scheduleUpdate(@RequestBody @Parameter(description = "수정할 스케줄 정보", required = true) ScheduleDTO schedule, Model model) {
 		try {
+			System.out.println("여기지??");
 			pservice.scheduleUpdate(schedule);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -130,6 +133,17 @@ public class PlanController {
 			return exceptionHandling(e);
 		}
 	}
+	
+	@Operation(summary="스케줄 계획 수정" , description="스케줄 수정 시 DB에 저장된 데이터 순서 수정")
+	@PostMapping("/update_scheduls_plan")
+	public ResponseEntity<?> updateSchedulPlan(@RequestBody @Parameter(description = "수정된 스케줄계획", required = true) List<ScheduleDTO> schedules){
+		for(int i=0; i<schedules.size(); i++) {
+			System.out.println(schedules.get(i));
+			pservice.planScheduleUpdate(schedules.get(i),i, schedules.get(i).getScheduleIdx());
+		}
+		return ResponseEntity.ok().build();
+	}
+	
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();

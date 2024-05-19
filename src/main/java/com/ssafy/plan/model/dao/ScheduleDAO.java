@@ -19,6 +19,9 @@ public interface ScheduleDAO {
 	public int delete(int scheduleIdx);
 	
 	public List<ScheduleDTO> selectList();
+	public List<ScheduleDTO> selectOneList(int planIdx);
 	
 	public ScheduleDTO selectOne(int scheduleIdx);
+
+	public void planScheduleUpdate(ScheduleDTO schedule, int idx, int scheduleIdx);
 }
