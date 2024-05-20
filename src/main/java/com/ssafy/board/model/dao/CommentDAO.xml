@@ -3,7 +3,7 @@
 <mapper namespace="com.ssafy.board.model.dao.CommentDAO">
 	<insert id="insert" parameterType="CommentDTO">
 		insert into comment(comment_id, board_id, comment_writer, comment_content, comment_reg_date, board_idx)
-		values(#{commentId}, #{boardId}, #{commentWriter}, #{commentContent}, now(), #{boardIdx})
+		values(#{commentId}, #{boardId}, #{commentId}, #{commentContent}, now(), #{boardIdx})
 	</insert>
 	
 	<update id="update" parameterType="CommentDTO">

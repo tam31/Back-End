@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
+@CrossOrigin(origins="*")
 @RequestMapping("/comment")
 @Tag(name="Comment Controller", description="댓글 조회, 추가, 수정, 삭제")
 public class CommentController {
@@ -35,21 +37,10 @@ public class CommentController {
 	private BoardService bservice;
 	
 	@Operation(summary="댓글 작성", description="댓글 작성 시 DB에 저장")
-	@PostMapping(value="/write", headers= {"Content-type=application/json"})
-	@ResponseBody
-	public String write(@RequestBody CommentDTO commentDTO, HttpSession session) {
-		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
-		String commentId = loginInfo.getUserId();
-		String boardId = commentDTO.getBoardId();
-		String commentWriter = loginInfo.getUserName();
-		String commentContent = commentDTO.getCommentContent();
-		String commentRegDate = commentDTO.getCommentRegDate();
-		int boardIdx = commentDTO.getBoardIdx();
-		if(bservice.writeComment(commentId, boardId, commentWriter, commentContent, commentRegDate, boardIdx)==1) { // 댓글 작성 완료
-			return "OK";
-		} else {
-			return "FAIL";
-		}
+	@PostMapping(value="/write/{boardIdx}")
+	public ResponseEntity<?> write(@RequestBody CommentDTO commentDTO, @PathVariable("boardIdx") int boardIdx) {
+		bservice.inputComment(boardIdx, commentDTO);
+		return ResponseEntity.ok().build();
 	}
 	
 	@Operation(summary="댓글 수정 페이지 이동", description="댓글 수정 페이지 이동")

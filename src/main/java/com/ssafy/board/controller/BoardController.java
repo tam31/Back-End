@@ -122,6 +122,7 @@ public class BoardController {
 		}
 	}
 	
+	
 	// 검색
 //	@GetMapping("/search")
 //    public String search(@RequestParam("keyword") String keyword, Model model) {

@@ -2,6 +2,8 @@ package com.ssafy.board.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ssafy.board.model.dto.BoardDTO;
 import com.ssafy.board.model.dto.CommentDTO;
 

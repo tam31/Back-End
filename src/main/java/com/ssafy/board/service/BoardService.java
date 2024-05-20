@@ -123,4 +123,10 @@ public class BoardService {
 	public List<CommentDTO> getComments(int boardIdx){
 		return cdao.selectList(boardIdx);
 	}
+	
+	public void inputComment(int boardIdx, CommentDTO comment) {
+		BoardDTO board = bdao.selectOne(boardIdx);
+		comment.setBoardId(board.getUserId());
+		cdao.insert(comment);
+	}
 }
