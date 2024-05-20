@@ -22,7 +22,7 @@
 		where comment_idx=#{commentIdx} 
 	</select>
 	
-	<select id="selectList" resultType="CommentDTO">
+	<select id="selectList" resultMap="comment">
 		select *
 		from comment
 		where board_idx=#{boardIdx}

@@ -1,4 +1,4 @@
-package com.ssafy.user.model.service;
+package com.ssafy.board.service;
 
 import java.io.File;
 import java.io.IOException;
