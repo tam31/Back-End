@@ -15,8 +15,15 @@
 		from schedule order by schedule_idx desc
 	</select>
 	
+	<select id="selectOneList" resultMap = "schedule">
+		select *
+		from schedule
+		where plan_idx = #{planIdx}
+		order by schedule_order
+	</select>
+	
 	<update id="update" parameterType="ScheduleDTO">
-		update schedule set schedule_location=#{scheduleLocation}, schedule_lat=#{scheduleLat}, schedule_lon=#{scheduleLon}, schedule_memo=#{scheduleMemo}, schedule_order=#{scheduleOrder}
+		update schedule set schedule_memo=#{scheduleMemo}
 		where schedule_idx=#{scheduleIdx}
 	</update>
 	
@@ -30,6 +37,12 @@
 		from schedule
 		where schedule_idx=#{scheduleIdx} 
 	</select>
+	
+	<update id="planScheduleUpdate" parameterType="ScheduleDTO">
+		update schedule
+		set schedule_order = #{idx}
+		where schedule_idx = #{scheduleIdx}
+	</update>
 	
 	<resultMap type="ScheduleDTO" id="schedule">
 		<result column="schedule_idx" property="scheduleIdx"/>

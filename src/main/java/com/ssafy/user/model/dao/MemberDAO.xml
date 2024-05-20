@@ -54,6 +54,16 @@
 		where user_id = #{userId}
 	</update>
 	
+	<update id="updateInfo" parameterType="MemberDTO">
+		update user
+		set user_name = #{userName},
+			user_tel = #{userTel},
+			zip_code = #{zipCode},
+			user_address = #{userAddress},
+			user_address_detail = #{userAddressDetail}
+		where user_id = #{userId}
+	</update>
+	
 	<resultMap type="MemberDTO" id="member">
 		<result column="user_id" property="userId"/>
 		<result column="user_pw" property="userPw"/>
