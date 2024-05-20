@@ -63,14 +63,15 @@ public class CommentController {
 	}
 	
 	@Operation(summary="댓글 삭제", description="댓글 삭제 시 DB에 저장된 데이터 삭제")
-	@GetMapping("/delete")
-	public String delete(@RequestParam("commentIdx") int commentIdx, Model model) {
-		if(bservice.delete(commentIdx)) {
-			model.addAttribute("msg", "삭제에 성공하였습니다.");
+	@GetMapping("/delete/{idx}")
+	public ResponseEntity<?> delete(@PathVariable("idx") int idx) {
+		HttpStatus status = HttpStatus.ACCEPTED;
+		if(bservice.delete(idx)) {
+			status = HttpStatus.OK;
 		} else {
-			model.addAttribute("msg", "삭제에 실패하였습니다.");
+			status = HttpStatus.BAD_REQUEST;
 		}
-		return "redirect:/board/read";
+		return new ResponseEntity<>(status);
 	}
 	
 	@Operation(summary="댓글 목록", description="댓글 전체 목록 조회")

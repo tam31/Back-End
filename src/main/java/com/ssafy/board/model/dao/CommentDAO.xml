@@ -11,7 +11,7 @@
 		where comment_idx=#{commentIdx}
 	</update>
 	
-	<delete id="delete" parameterType="CommentDTO">
+	<delete id="delete" parameterType="int">
 		delete from comment
 		where comment_idx=#{commentIdx}
 	</delete>

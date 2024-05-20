@@ -12,7 +12,7 @@ public interface CommentDAO {
 	
 	public int update(CommentDTO comment);
 	
-	public int delete(int commentIdx);
+	public int delete(@Param("commentIdx") int commentIdx);
 	
 	public CommentDTO selectOne(int commentIdx);
 	

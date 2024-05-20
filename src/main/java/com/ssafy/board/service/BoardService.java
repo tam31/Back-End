@@ -40,7 +40,7 @@ public class BoardService {
 	}
 
 	public boolean delete(int boardIdx) {
-		if (bdao.delete(boardIdx) > 0) {
+		if (cdao.delete(boardIdx) > 0) {
 			return true;
 		}
 		return false;
