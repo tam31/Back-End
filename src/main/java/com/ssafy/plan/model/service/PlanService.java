@@ -39,8 +39,8 @@ public class PlanService {
 	}
 
 	public PlanDTO read(int planIdx) {
-		
 		PlanDTO plan = pdao.selectOne(planIdx);
+		plan.setSchedules(sdao.selectOneList(planIdx));
 		return plan;
 	}
 
