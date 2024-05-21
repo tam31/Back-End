@@ -7,7 +7,7 @@
 	</insert>
 	
 	<update id="update" parameterType="CommentDTO">
-		update comment set comment_writer=#{commentWriter} comment_content=#{commentContent}
+		update comment set comment_content=#{commentContent}, comment_reg_date = now()
 		where comment_idx=#{commentIdx}
 	</update>
 	

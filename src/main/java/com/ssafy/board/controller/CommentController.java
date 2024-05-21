@@ -52,14 +52,15 @@ public class CommentController {
 	}
 	
 	@Operation(summary="댓글 수정", description="댓글 수정 요청 시 DB에 저장된 데이터 수정")
-	@PostMapping("/update")
-	public String update(CommentDTO comment, Model model) {
+	@PostMapping("/update/{commentIdx}")
+	public ResponseEntity<?> update(@RequestBody CommentDTO comment, @PathVariable("commentIdx") int commentIdx) {
+		HttpStatus status = HttpStatus.ACCEPTED;
 		if(bservice.updateComment(comment)) {
-			model.addAttribute("msg", "수정에 성공하였습니다.");
+			status = HttpStatus.OK;
 		} else {
-			model.addAttribute("msg", "수정에 실패하였습니다.");
+			status = HttpStatus.BAD_REQUEST;
 		}
-		return "redirect:/board/read";
+		return new ResponseEntity<>(status);
 	}
 	
 	@Operation(summary="댓글 삭제", description="댓글 삭제 시 DB에 저장된 데이터 삭제")
