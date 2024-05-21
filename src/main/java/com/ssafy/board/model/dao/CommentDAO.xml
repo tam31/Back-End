@@ -3,15 +3,15 @@
 <mapper namespace="com.ssafy.board.model.dao.CommentDAO">
 	<insert id="insert" parameterType="CommentDTO">
 		insert into comment(comment_id, board_id, comment_writer, comment_content, comment_reg_date, board_idx)
-		values(#{commentId}, #{boardId}, #{commentWriter}, #{commentContent}, now(), #{boardIdx})
+		values(#{commentId}, #{boardId}, #{commentId}, #{commentContent}, now(), #{boardIdx})
 	</insert>
 	
 	<update id="update" parameterType="CommentDTO">
-		update comment set comment_writer=#{commentWriter} comment_content=#{commentContent}
+		update comment set comment_content=#{commentContent}, comment_reg_date = now()
 		where comment_idx=#{commentIdx}
 	</update>
 	
-	<delete id="delete" parameterType="CommentDTO">
+	<delete id="delete" parameterType="int">
 		delete from comment
 		where comment_idx=#{commentIdx}
 	</delete>
@@ -22,7 +22,7 @@
 		where comment_idx=#{commentIdx} 
 	</select>
 	
-	<select id="selectList" resultType="CommentDTO">
+	<select id="selectList" resultMap="comment">
 		select *
 		from comment
 		where board_idx=#{boardIdx}

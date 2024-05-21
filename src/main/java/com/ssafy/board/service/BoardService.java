@@ -1,4 +1,4 @@
-package com.ssafy.user.model.service;
+package com.ssafy.board.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class BoardService {
 	}
 
 	public boolean delete(int boardIdx) {
-		if (bdao.delete(boardIdx) > 0) {
+		if (cdao.delete(boardIdx) > 0) {
 			return true;
 		}
 		return false;
@@ -122,5 +122,11 @@ public class BoardService {
 	
 	public List<CommentDTO> getComments(int boardIdx){
 		return cdao.selectList(boardIdx);
+	}
+	
+	public void inputComment(int boardIdx, CommentDTO comment) {
+		BoardDTO board = bdao.selectOne(boardIdx);
+		comment.setBoardId(board.getUserId());
+		cdao.insert(comment);
 	}
 }
