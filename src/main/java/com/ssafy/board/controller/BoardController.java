@@ -28,8 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ssafy.board.model.dto.BoardDTO;
 import com.ssafy.board.model.dto.FileDTO;
+import com.ssafy.board.service.BoardService;
 import com.ssafy.user.model.dto.MemberDTO;
-import com.ssafy.user.model.service.BoardService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -121,6 +121,7 @@ public class BoardController {
 			return exceptionHandling(e);
 		}
 	}
+	
 	
 	// 검색
 //	@GetMapping("/search")
