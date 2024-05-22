@@ -21,4 +21,7 @@ public interface PlanDAO {
 	public List<PlanDTO> selectList(@Param("sr") int startRow, @Param("cc") int count);
 	
 	public PlanDTO selectOne(int planIdx);
+
+	public Integer selectLastIdx();
+	public List<PlanDTO> selectPlans(String userId);
 }
