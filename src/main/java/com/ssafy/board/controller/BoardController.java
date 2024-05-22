@@ -112,10 +112,10 @@ public class BoardController {
     }
 	
 	@Operation(summary="게시글 삭제", description="게시글 삭제 시 DB에 저장된 데이터 삭제")
-	@DeleteMapping("/delete/{boardId}")
+	@GetMapping("/delete/{boardId}")
 	public ResponseEntity<?> delete(@PathVariable("boardId") @Parameter(name = "boardId", description = "살제할 글의 글번호.", required = true) int boardId) {
 		try {
-			bservice.delete(boardId);
+			bservice.deleteBoard(boardId);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			return exceptionHandling(e);
