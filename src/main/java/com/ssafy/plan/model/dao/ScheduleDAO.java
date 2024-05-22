@@ -12,6 +12,8 @@ public interface ScheduleDAO {
 
 	public int insert(ScheduleDTO schedule) throws SQLException;
 	
+	ScheduleDTO getLastInsertedSchedule() throws SQLException;
+	
 	int getLastScheduleOrder(@Param("planIdx") int planIdx);
 	
 	public int update(ScheduleDTO schedule);

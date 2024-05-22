@@ -73,7 +73,7 @@ public class PlanService {
 		return map;
 	}
 	
-	public void scheduleWrite(ScheduleDTO schedule) throws Exception {
+	public ScheduleDTO scheduleWrite(ScheduleDTO schedule) throws Exception {
 		int planIdx = schedule.getPlanIdx();
         int lastOrder = sdao.getLastScheduleOrder(planIdx);
 
@@ -86,6 +86,7 @@ public class PlanService {
         }
 		
 		sdao.insert(schedule);
+		return sdao.getLastInsertedSchedule();
 	}
 
 	public boolean scheduleUpdate(ScheduleDTO schedule) {
