@@ -23,7 +23,7 @@
 	
 	<delete id="delete" parameterType="BoardDTO">
 		delete from board
-		where board_idx=#{boardIdx}
+		where board_idx = #{boardIdx}
 	</delete>
 	
 	<select id="selectOne" resultMap="board">

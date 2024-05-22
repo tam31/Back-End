@@ -1,7 +1,5 @@
 package com.ssafy.plan.model.dto;
 
-import java.util.Date;
-
 public class ScheduleDTO {
 	private int scheduleIdx;
 	private String scheduleLocation;
@@ -10,11 +8,12 @@ public class ScheduleDTO {
 	private String scheduleMemo;
 	private int planIdx;
 	private int scheduleOrder;
+	private int scheduleDate;
 	
 	public ScheduleDTO() {}
 
 	public ScheduleDTO(int scheduleIdx, String scheduleLocation, double scheduleLat, double scheduleLon,
-			String scheduleMemo, int planIdx, int scheduleOrder) {
+			String scheduleMemo, int planIdx, int scheduleOrder, int scheduleDate) {
 		super();
 		this.scheduleIdx = scheduleIdx;
 		this.scheduleLocation = scheduleLocation;
@@ -23,6 +22,7 @@ public class ScheduleDTO {
 		this.scheduleMemo = scheduleMemo;
 		this.planIdx = planIdx;
 		this.scheduleOrder = scheduleOrder;
+		this.scheduleDate = scheduleDate;
 	}
 
 	public int getScheduleIdx() {
@@ -81,10 +81,18 @@ public class ScheduleDTO {
 		this.scheduleOrder = scheduleOrder;
 	}
 
+	public int getScheduleDate() {
+		return scheduleDate;
+	}
+
+	public void setScheduleDate(int scheduleDate) {
+		this.scheduleDate = scheduleDate;
+	}
+
 	@Override
 	public String toString() {
 		return "ScheduleDTO [scheduleIdx=" + scheduleIdx + ", scheduleLocation=" + scheduleLocation + ", scheduleLat="
-				+ scheduleLat + ", scheduleLon=" + scheduleLon + ", scheduleMemo="
-				+ scheduleMemo + ", planIdx=" + planIdx + ", scheduleOrder=" + scheduleOrder + "]";
+				+ scheduleLat + ", scheduleLon=" + scheduleLon + ", scheduleMemo=" + scheduleMemo + ", planIdx="
+				+ planIdx + ", scheduleOrder=" + scheduleOrder + ", scheduleDate=" + scheduleDate + "]";
 	}
 }
