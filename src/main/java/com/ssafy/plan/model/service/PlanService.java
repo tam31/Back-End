@@ -77,7 +77,6 @@ public class PlanService {
 	public Map<String, Object> listPlans(String userId){
 		Map<String, Object> map = new HashMap<>();
 		List<PlanDTO> plans= pdao.selectPlans(userId);
-		System.out.println(plans);
 		map.put("planList", plans);
 		return map;
 	}

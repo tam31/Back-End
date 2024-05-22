@@ -52,15 +52,27 @@ public class PlanController {
 
 	@Operation(summary="플랜 목록", description="플랜 전체 목록 조회")
 	@GetMapping("/list")
-	public Map<String, Object> getPlanList(@RequestParam(value="page", defaultValue = "1") int page) {
-		return pservice.makePage(page);
+	public  ResponseEntity<?> getPlanList(@RequestParam(value="page", defaultValue = "1") int page, HttpSession session) {
+		String accessToken = (String) session.getAttribute("accessToken");
+	    
+	    // accessToken을 사용하는 로직 추가
+	    // 예: accessToken을 로그로 출력
+	    System.out.println("Access Token: " + accessToken);
+		return ResponseEntity.ok().build();
 	}
 
 	@Operation(summary="사용자 플랜 목록", description="사용자 플랜 목록 조회")
 	@GetMapping("/list/{userId}")
 	public ResponseEntity<?> getUserPlanList(@PathVariable("userId") String userId) {
-		pservice.listPlans(userId);
-		return ResponseEntity.ok().build();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			resultMap = pservice.listPlans(userId);
+			status = HttpStatus.OK;
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}catch (Exception e) {
+			return exceptionHandling(e);
+		}
 	}
 	
 	@Operation(summary="플랜 idx 얻기", description="플랜 idx 조회")
