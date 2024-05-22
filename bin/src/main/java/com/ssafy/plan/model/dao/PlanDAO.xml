@@ -33,12 +33,11 @@
 	</select>
 	
 	<select id = "selectPlans" resultMap="plan">
-		SELECT *
-		FROM `join` j
-		INNER JOIN user u ON u.user_id = j.user_id
-		INNER JOIN plan p ON p.plan_idx = j.plan_idx
-		WHERE u.user_id = #{userId}
-		ORDER BY j.plan_idx;
+		select j.plan_idx, plan.plan_title, plan.plan_date
+		from `join` j
+		inner join user on user.user_id = j.user_id
+		inner join plan on plan.plan_idx = j.plan_idx
+		order by j.plan_idx; 
 	</select>
 	
 	<select id = "selectLastIdx" resultType="int">
