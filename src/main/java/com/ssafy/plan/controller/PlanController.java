@@ -96,12 +96,12 @@ public class PlanController {
 	
 	@Operation(summary="스케줄 작성", description="스케줄 작성 요청 시 DB에 저장")
 	@PostMapping("/write_schedule")
-	public ResponseEntity<?> scheduleWrite(@RequestBody @Parameter(description = "작성 스케줄 정보", required = true) ScheduleDTO schedule){
+	public ResponseEntity<ScheduleDTO> scheduleWrite(@RequestBody @Parameter(description = "작성 스케줄 정보", required = true) ScheduleDTO schedule){
 		try {
-			pservice.scheduleWrite(schedule);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			ScheduleDTO insertedSchedule = pservice.scheduleWrite(schedule);
+			return new ResponseEntity<>(insertedSchedule, HttpStatus.OK);
 		} catch (Exception e) {
-			return exceptionHandling(e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
