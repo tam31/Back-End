@@ -133,7 +133,6 @@ public class PlanController {
 	@PostMapping("/update_schedule")
 	public ResponseEntity<?> scheduleUpdate(@RequestBody @Parameter(description = "수정할 스케줄 정보", required = true) ScheduleDTO schedule, Model model) {
 		try {
-			System.out.println("여기지??");
 			pservice.scheduleUpdate(schedule);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -162,7 +161,6 @@ public class PlanController {
 	@PostMapping("/update_scheduls_plan")
 	public ResponseEntity<?> updateSchedulPlan(@RequestBody @Parameter(description = "수정된 스케줄계획", required = true) List<ScheduleDTO> schedules){
 		for(int i=0; i<schedules.size(); i++) {
-			System.out.println(schedules.get(i));
 			pservice.planScheduleUpdate(schedules.get(i),i, schedules.get(i).getScheduleIdx());
 		}
 		return ResponseEntity.ok().build();
