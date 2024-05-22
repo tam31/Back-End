@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Update;
@@ -54,6 +55,29 @@ public class PlanController {
 	public Map<String, Object> getPlanList(@RequestParam(value="page", defaultValue = "1") int page) {
 		return pservice.makePage(page);
 	}
+
+	@Operation(summary="사용자 플랜 목록", description="사용자 플랜 목록 조회")
+	@GetMapping("/list/{userId}")
+	public ResponseEntity<?> getUserPlanList(@PathVariable("userId") String userId) {
+		pservice.listPlans(userId);
+		return ResponseEntity.ok().build();
+	}
+	
+	@Operation(summary="플랜 idx 얻기", description="플랜 idx 조회")
+	@GetMapping("/getIdx")
+	public ResponseEntity<?> listIdx() {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			Integer idx = pservice.listIdx();
+			resultMap.put("idx", idx);
+			status = HttpStatus.OK;
+			
+		}catch (Exception e) {
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 	
 	@Operation(summary="플랜 작성", description="플랜 작성 요청 시 DB에 저장")
 	@PostMapping("/write")
@@ -96,12 +120,12 @@ public class PlanController {
 	
 	@Operation(summary="스케줄 작성", description="스케줄 작성 요청 시 DB에 저장")
 	@PostMapping("/write_schedule")
-	public ResponseEntity<?> scheduleWrite(@RequestBody @Parameter(description = "작성 스케줄 정보", required = true) ScheduleDTO schedule){
+	public ResponseEntity<ScheduleDTO> scheduleWrite(@RequestBody @Parameter(description = "작성 스케줄 정보", required = true) ScheduleDTO schedule){
 		try {
-			pservice.scheduleWrite(schedule);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			ScheduleDTO insertedSchedule = pservice.scheduleWrite(schedule);
+			return new ResponseEntity<>(insertedSchedule, HttpStatus.OK);
 		} catch (Exception e) {
-			return exceptionHandling(e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

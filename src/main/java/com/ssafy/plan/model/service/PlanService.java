@@ -73,7 +73,21 @@ public class PlanService {
 		return map;
 	}
 	
-	public void scheduleWrite(ScheduleDTO schedule) throws Exception {
+	// 사용자 여행계획 리스트
+	public Map<String, Object> listPlans(String userId){
+		Map<String, Object> map = new HashMap<>();
+		List<PlanDTO> plans= pdao.selectPlans(userId);
+		System.out.println(plans);
+		map.put("planList", plans);
+		return map;
+	}
+	
+	// 추가후 plan_idx 뽑기
+	public Integer listIdx() {
+		return pdao.selectLastIdx();
+	}
+	
+	public ScheduleDTO scheduleWrite(ScheduleDTO schedule) throws Exception {
 		int planIdx = schedule.getPlanIdx();
         int lastOrder = sdao.getLastScheduleOrder(planIdx);
 
@@ -86,6 +100,7 @@ public class PlanService {
         }
 		
 		sdao.insert(schedule);
+		return sdao.getLastInsertedSchedule();
 	}
 
 	public boolean scheduleUpdate(ScheduleDTO schedule) {
