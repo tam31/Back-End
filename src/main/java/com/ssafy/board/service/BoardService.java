@@ -38,6 +38,13 @@ public class BoardService {
 		}
 		return false;
 	}
+	
+	public boolean deleteBoard(int boardIdx) {
+		if (bdao.delete(boardIdx) > 0) {
+			return true;
+		}
+		return false;
+	}
 
 	public boolean delete(int boardIdx) {
 		if (cdao.delete(boardIdx) > 0) {
