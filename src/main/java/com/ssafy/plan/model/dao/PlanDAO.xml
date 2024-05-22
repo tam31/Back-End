@@ -32,6 +32,21 @@
 		where plan_idx=#{planIdx} 
 	</select>
 	
+	<select id = "selectPlans" resultMap="plan">
+		select j.plan_idx, plan.plan_title, plan.plan_date
+		from `join` j
+		inner join user on user.user_id = j.user_id
+		inner join plan on plan.plan_idx = j.plan_idx
+		order by j.plan_idx; 
+	</select>
+	
+	<select id = "selectLastIdx" resultType="int">
+		select plan_idx
+		from plan
+		order by plan_idx desc
+		limit 1;
+	</select>
+	
 	<resultMap type="PlanDTO" id="plan">
 		<result column="plan_idx" property="planIdx"/>
 		<result column="plan_title" property="planTitle"/>

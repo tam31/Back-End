@@ -23,9 +23,7 @@
 	</select>
 
 	<select id="selectList" resultMap="schedule">
-		select schedule_idx,
-		schedule_location, schedule_lat, schedule_lon, schedule_memo,
-		plan_idx, schedule_order
+		select *
 		from schedule order by schedule_idx desc
 	</select>
 
@@ -70,5 +68,6 @@
 		<result column="schedule_memo" property="scheduleMemo" />
 		<result column="plan_idx" property="planIdx" />
 		<result column="schedule_order" property="scheduleOrder" />
+		<result column="schedule_date" property="scheduleDate" />
 	</resultMap>
 </mapper>
